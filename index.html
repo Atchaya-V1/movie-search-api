@@ -1,0 +1,119 @@
+<html>
+    <head>
+        
+
+        
+<title>movie search</title>
+<style>
+    body{
+        background-color: black;
+        margin: 0;
+        padding: 20px;
+    }
+    form{
+        color: blueviolet;
+        padding: 20px;
+        
+    }
+    input[type="text"]{
+        width:200px;
+        padding:10px;
+        border-radius: 8px;
+        border:mediumspringgreen
+    }
+    button{
+        cursor:pointer;
+        width:70px;
+        font-size: medium;
+        border-radius: 8px;
+        border:none;
+    }
+    .image-container{
+        
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 20px;
+        padding: 50px;
+    }
+</style>
+</head>
+<body>
+    
+<form>
+    <center>
+        <h1> API MOVIE SEARCH  </h1>
+    <input type="text"></input>
+    <button>search</button>
+</center>
+</form>
+    
+<div class="image-container"></div>
+<script>
+const forms=document.querySelector("form")
+const imagee=document.querySelector(".image-container")
+
+forms.addEventListener("submit",(e)=>{
+    e.preventDefault();
+    let query=forms.querySelector("input").value.trim();
+    console.log(query)
+    makemovies(query)
+});
+async function makemovies(query){
+
+    const book=await fetch(`https://www.omdbapi.com/?s=${query}&&apikey=4d8bec6f`)
+    const movies=await book.json();
+    console.log(movies)
+    images(movies.Search )
+//
+}
+
+
+function images(movies) {
+    
+
+    movies.forEach(movie => {
+        let box =document.createElement("img")
+        const imdbLink = `https://www.imdb.com/title/${movie.imdbID}`;
+        
+
+        box.src=movie.Poster;
+        box.alt=movie.Title;
+
+        let card=document.createElement("div")
+        card.style.backgroundColor = "#1e1e1e";
+    card.style.borderRadius = "10px";
+    card.style.padding = "10px";
+    card.style.textAlign = "center";
+    card.style.width = "200px";
+    card.style.boxShadow = "0 0 10px rgba(0, 255, 127, 0.3)";
+        let title=document.createElement("h2")
+        
+        title.textContent=movie.Title
+        let year=document.createElement("h3")
+        title.textContent = movie.Title;
+    title.style.color = "white";
+    title.style.fontSize = "16px";
+    title.style.margin = "10px 0 5px";
+        year.textContent=`${movie.Year}`
+        year.textContent = `Year: ${movie.Year}`;
+    year.style.color = "mediumspringgreen";
+    year.style.margin = "0";
+        year.style.color="blue"
+        year.style.margin = "10px 0 5px";
+        const link=document.createElement("a")
+        link.href = imdbLink;
+        link.style.color="white"
+        link.textContent="to showcase this movie"
+    link.target = "_blank";
+        card.appendChild(box)
+        card.appendChild(title);
+        card.appendChild(year);
+        card.appendChild(link);
+        imagee.appendChild(card);
+    }); 
+}  
+
+</script>
+</body>
+</html>
